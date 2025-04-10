@@ -70,16 +70,31 @@ class CommentsController < ApplicationController
     #     redirect_back fallback_location: root_url, alert: "Not authorized"
     #   end
     # end
+
+
+      # if action_name == "create"
+      #   @photo = Photo.find(params.fetch(:comment).fetch(:photo_id))
+      # else
+      #   @comment = Comment.find(params[:id])
+      #   @photo = @comment.photo
+      # end
+
+      # if current_user != @photo.owner && @photo.owner.private? && !current_user.leaders.include?(@photo.owner)
+      #   redirect_back fallback_location: root_url, alert: "Not authorized"
+      # end
+
       if action_name == "create"
         @photo = Photo.find(params.fetch(:comment).fetch(:photo_id))
+        if current_user != @photo.owner && @photo.owner.private? && !current_user.leaders.include?(@photo.owner)
+          redirect_back fallback_location: root_url, alert: "Not authorized"
+        end
       else
-        @comment = Comment.find(params[:id])
-        @photo = @comment.photo
+        @comment = Comment.find(params[:id]) if @comment.nil?
+        unless current_user == @comment.author
+          redirect_back fallback_location: root_url, alert: "You're not authorized for that"
+        end
       end
-    
-      if current_user != @photo.owner && @photo.owner.private? && !current_user.leaders.include?(@photo.owner)
-        redirect_back fallback_location: root_url, alert: "Not authorized"
-      end
+
     end
 
     # Only allow a list of trusted parameters through.
