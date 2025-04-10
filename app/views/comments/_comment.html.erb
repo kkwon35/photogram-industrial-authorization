@@ -9,15 +9,18 @@
           <%= link_to comment.author.username, user_path(comment.author.username), class: "text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-100-hover" %>
         </h5>
 
-        <div>
-          <%= link_to edit_comment_path(comment), class: "btn btn-link btn-sm text-muted" do %>
-            <i class="fas fa-edit fa-fw"></i>
-          <% end %>
+        <% if current_user == comment.author %>
+          <div>
+            <%= link_to edit_comment_path(comment), class: "btn btn-link btn-sm text-muted" do %>
+              <i class="fas fa-edit fa-fw"></i>
+            <% end %>
 
-          <%= button_to comment, method: :delete, class: "btn btn-link btn-sm text-muted", form_class: "btn btn-sm btn-link" do %>
-            <i class="fas fa-trash fa-fw"></i>
-          <% end %>
-        </div>
+            <%= button_to comment, method: :delete, class: "btn btn-link btn-sm text-muted", form_class: "btn btn-sm btn-link" do %>
+              <i class="fas fa-trash fa-fw"></i>
+            <% end %>
+          </div>
+        <% end %>
+        
       </div>
       <p><%= comment.body %></p>
     </div>

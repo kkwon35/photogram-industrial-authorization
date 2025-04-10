@@ -17,23 +17,25 @@
     </div>
 
     <div class="mb-4 d-flex justify-content-between">
-      <div>
-        <%=
-          link_to "#",
-            class: "link-underline link-underline-opacity-0 link-underline-opacity-100-hover",
-            data: { 
-              "bs-toggle": "modal", 
-              "bs-target": "##{dom_id(user)}_followers"
-            } do %>
+      <% if current_user == user %>
+        <div>
+          <%=
+            link_to "#",
+              class: "link-underline link-underline-opacity-0 link-underline-opacity-100-hover",
+              data: { 
+                "bs-toggle": "modal", 
+                "bs-target": "##{dom_id(user)}_followers"
+              } do %>
 
-          <span class="font-weight-bold">
-            <%= user.followers.size %>
-          </span>
-          
-          followers
+            <span class="font-weight-bold">
+              <%= user.followers.size %>
+            </span>
+            
+            followers
 
-        <% end %>
-      </div>
+          <% end %>
+        </div>
+      <% end %>
 
       <div>
         <%=
@@ -147,10 +149,19 @@
     target: "#{dom_id(user)}_following"
 %>
 
-<%=
+<%#=
   render "users/connected_users_modal",
     user: user,
     connected_users: user.pending,
     description: "pending",
     target: "#{dom_id(user)}_pending"
 %>
+
+<% if current_user == user %>
+  <%=
+  render "users/connected_users_modal",
+    user: user,
+    connected_users: user.pending,
+    description: "pending",
+    target: "#{dom_id(user)}_pending" %>
+<% end %>
