@@ -5,6 +5,24 @@ class UsersController < ApplicationController
     @users = @q.result
   end
 
+  def feed
+    if @user != current_user
+      redirect_to root_path, alert: "You're not authorized for that"
+      return
+    end
+
+    @photos = current_user.feed.latest
+  end
+
+  def discover
+    if @user != current_user
+      redirect_to root_path, alert: "You're not authorized for that"
+      return
+    end
+
+    @photos = current_user.discover.latest
+  end
+
   private
 
     def set_user

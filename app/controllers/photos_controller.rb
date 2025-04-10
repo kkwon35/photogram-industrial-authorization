@@ -59,6 +59,7 @@ class PhotosController < ApplicationController
       end
     else
       redirect_back(fallback_location: root_ur, notice: "Nice try, but that is not your photo.")
+    end
   end
 
   private
